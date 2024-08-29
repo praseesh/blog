@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import UserInfo
 from django.forms import ValidationError
 from django.core.validators import validate_email
+from django.contrib.auth.hashers import check_password
 
 class UserInfoSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True, required=True)
@@ -44,3 +45,25 @@ class UserInfoSerializer(serializers.ModelSerializer):
         validated_data.pop('confirm_password', None)  
         user = UserInfo.objects.create(**validated_data)
         return user
+    
+class UserLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            raise serializers.ValidationError("Must include both username and password.")
+
+        try:
+            user = UserInfo.objects.get(username=username)
+        except UserInfo.DoesNotExist:
+            raise serializers.ValidationError("User with this username does not exist.")
+
+        if not check_password(password, user.password):
+            raise serializers.ValidationError("Incorrect password.")
+
+        data['user'] = user
+        return data

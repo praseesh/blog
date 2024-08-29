@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.forms import ValidationError
 from django.contrib.auth.hashers import make_password
+from django.utils import timezone
 
 class UserInfo(models.Model):
     username = models.CharField(max_length=25, null=False, blank=False, unique=True, validators=[
@@ -21,3 +22,4 @@ class UserInfo(models.Model):
         if len(value) < 4:
             raise ValidationError('Password must be at least 4 characters long.')
     password = models.CharField(max_length=256, validators=[validate_password_strength])
+    
