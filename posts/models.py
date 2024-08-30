@@ -21,6 +21,7 @@ class Category(models.Model):
         ('SCIENCE', 'Science'),
         ('BOOKS', 'Books'),
         ('PHOTOGRAPHY', 'Photography'),
+        ('OTHER','Other')
     ]
     name = models.CharField(max_length=30, choices=CATEGORY_CHOICES, unique=True)
     class Meta:
