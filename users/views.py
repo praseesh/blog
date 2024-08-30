@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.authentication import generate_tokens_for_user, validate_token
+from users.helper import token_validator
 from .models import UserInfo
 from rest_framework_simplejwt.tokens import RefreshToken,AccessToken
 from .serializers import UserInfoSerializer, UserLoginSerializer
@@ -34,11 +35,9 @@ class UserLoginView(APIView):
     
 class UserListView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
-        auth_header = request.headers.get('Authorization')
-        if auth_header is None:
-            return Response({'error':'Authentication Token not provided'})
-        if validate_token(auth_header) is False:  
-            return Response({'error':'Token error:Token is Expired or Invalid'})
+        is_valid, response = token_validator(request)
+        if not is_valid:
+            return Response(response, status=400) 
         return super().get(request, *args, **kwargs)
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
@@ -46,7 +45,11 @@ class UserListView(generics.ListAPIView):
     
     
 class UserDetailView(generics.RetrieveAPIView):
-
+    def get(self, request, *args, **kwargs):
+        is_valid, response = token_validator(request)
+        if not is_valid:
+            return Response(response, status=400) 
+        return super().get(request, *args, **kwargs)
     queryset = UserInfo.objects.all()
     serializer_class = UserInfoSerializer
     lookup_field = 'id'
