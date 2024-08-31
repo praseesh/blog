@@ -123,12 +123,18 @@ from django.core.management.utils import get_random_secret_key
 # JWT_SECRET_KEY="some_random_string"
 
 # REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
 #         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ],
+#     ),
 # }
 
 # SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+#     'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
+#     'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
 # }

@@ -5,7 +5,7 @@ class PostCreationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Posts
-        fields = ['title', 'content', 'categories']
+        fields = ['title', 'content', 'categories','created_at']
     
     def validate_title(self,value):
         if len(value) < 4:
