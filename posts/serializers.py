@@ -25,7 +25,7 @@ class PostModifySerializer(serializers.ModelSerializer):
         fields = ['title', 'content', 'categories']
         
     def validate_title(self, value):
-        if len(value) < 4:
+        if len(value) < 3:
             raise serializers.ValidationError("Title must be at least 4 characters long.")
         return value
 
