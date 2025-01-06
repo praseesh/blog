@@ -12,7 +12,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password':{'write_only': True},
         }
-        
     def validate_username(self, value):
         if len(value) < 4:
             raise serializers.ValidationError("Username must be at least 4 characters long.")
