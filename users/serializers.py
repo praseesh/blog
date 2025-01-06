@@ -6,7 +6,6 @@ from django.contrib.auth.hashers import check_password
 
 class UserInfoSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True, required=True)
-    
     class Meta:
         model = UserInfo
         fields = ['username', 'email', 'phone', 'password', 'confirm_password']
