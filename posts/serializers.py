@@ -16,9 +16,7 @@ class PostCreationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Content must be at least 10 characters long.")
         return value
         
-        
 class PostModifySerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Posts
         fields = ['title', 'content', 'categories']
