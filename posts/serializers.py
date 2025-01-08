@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Posts, Category
 
 class PostCreationSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Posts
         fields = ['title', 'content', 'categories','created_at']
